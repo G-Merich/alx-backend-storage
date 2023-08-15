@@ -1,2 +1,2 @@
-// list all documents in the collection school with name="Holberton school"
-db.school.find({"name": "Holberton school"})
+//  deletes all documents with name="Holberton school" in the collection school
+db.school.deleteMany({ "name": "Holberton school" })
