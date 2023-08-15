@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-''' module for task 12 '''
+''' module for task 102 '''
 from pymongo import MongoClient
 
 
@@ -16,6 +16,18 @@ def main():
 
     print("{} status check".format(lst.count_documents(
         {'method': 'GET', 'path': "/status"})))
+
+    print("IPs:")
+    pipeline = [
+        {"$group": {"_id": "$ip", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}},
+        {"$limit": 10}
+    ]
+
+    top_ips = list(lst.aggregate(pipeline))
+
+    for ip_info in top_ips:
+        print("\t{}: {}".format(ip_info["_id"], ip_info["count"]))
 
 
 if __name__ == "__main__":
